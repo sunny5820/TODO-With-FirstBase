@@ -2,13 +2,14 @@ import React from 'react';
 
 const TaskAdd = ({value, changeHandler, clickHandler}) =>{
     return(
-      <div>
-      {/*할일 입력 부분 */}
-      <form>
-        <input value={value} onChange={changeHandler}></input>
-        <button onClick={clickHandler}>저장</button>
+      <form className="field has-addons">
+        <div className="control is-expanded">
+          <input className="input" value={value} onChange={changeHandler}></input>
+        </div>
+        <div className="control">
+          <button className="button is-primary" onClick={clickHandler}>저장</button>
+        </div>
       </form>
-    </div>
     )
   }
 

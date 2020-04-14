@@ -4,19 +4,33 @@ import './App.css';
 import TaskAdd from './components/TaskAdd';
 import TaskDisplay from './components/TaskDisplay';
 
+import { firestore } from "./firebase";
+
 class App extends Component {
   constructor(props){
   super(props);
   this.state={
     tasks:[ 
-      {todo:'할일 1'},
-      {todo:'할일 2'},
-      {todo:'할일 3'},
-      {todo:'할일 4'},
+      
     ],
     task:''
     }
   }
+
+  componentDidMount(){
+    const tasks = [...this.state.tasks]
+    firestore.collection('tasks').get()
+    .then(docs=>{
+      //console.log('성공');
+       docs.forEach(doc=>{
+         //console.log(doc.data().todo+" "+ doc.id);
+         tasks.push({todo:doc.data.todo, id:doc.id})
+      })
+      this.setState({tasks:tasks})
+    })
+    
+  }
+
   onClickHandler = (e) =>{
     //console.log(e.target);
     e.preventDefault();
@@ -41,7 +55,7 @@ class App extends Component {
 
   render(){
     return (
-      <div className="App">
+      <div className="container">
         <TaskAdd
           value={this.state.task}
           changeHandler={this.onChangeHandler}
@@ -56,7 +70,7 @@ class App extends Component {
         </div>
       </div>
     );
-  } 
+  }  
 }
 
 
